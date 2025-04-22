@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Zach Kofira / Section 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -105,6 +105,43 @@ public class Graph {
   public int findRoot() {
 
     // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+
+    /*
+    DISCLAIMER: This solution isn't very good, it runs on O(n^3) time.  Using a hash table could bring it down to n^2 + n, or just O(n^2).
+     */
+
+    boolean couldRoot;
+    int root = -1;
+
+    //outer for loop selects a vertex to check roothood of
+    for (int i = 0; i < numVertices; i++) {
+      couldRoot = true;
+
+      //double loop checks every destination against current vertex, if it finds a match then it can't be the root
+      for (int j = 0; j < numVertices; j++) {
+        for (Integer dest : adjListArr[j]) {
+          if (dest == i) {
+            couldRoot = false;
+          }
+        }
+      }
+      //if a root vertex is found for the first time, it becomes the new root.  If it isnt the first time, root is -2 to indicate multiple roots.
+      if (couldRoot) {
+        if (root == -1) {
+          root = i;
+        } else {
+          root = -2;
+        }
+
+      }
+    }
+
+    //if root is invalid (none or too many), make sure its -1, else get the value of the root and return it
+    if (root < 0) {
+      root = -1;
+    } else {
+      root = vertexValues.get(root);
+    }
+    return root;
   } 
 }
